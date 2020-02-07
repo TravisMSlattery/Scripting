@@ -1,0 +1,458 @@
+{
+ "cells": [
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "Scripting Module\n",
+    "- We will review the linux file system\n",
+    "- We will look at the linux command line and learn some fundamental commands in linux\n",
+    "-- ls\n",
+    "-- pwd\n",
+    "-- cd (including absolute and relative paths)\n",
+    "-- mv\n",
+    "-- mkdir\n",
+    "-- type\n",
+    "-- which\n",
+    "-- kill\n",
+    "-- su\n",
+    "-- ps\n",
+    "-- echo\n",
+    "-- printf\n",
+    "-- grep\n",
+    "-- cat\n",
+    "-- sed\n",
+    "-- grep\n",
+    "- We will look at file permissions in linux\n",
+    "- We will look at IO: STDIN, STDOUT, and STDERR\n",
+    "- We will look at redirection and piping in linux\n",
+    "- We will look at globbing\n",
+    "- We will look at various types of expansion (brace, command, command, etc)\n",
+    "- We will look at scripting the bash shell\n",
+    "-- specifying the interpreter\n",
+    "-- variables\n",
+    "-- if statement\n",
+    "-- Iteration\n",
+    "-- string manipulation\n",
+    "-- user input\n",
+    "-- error handling\n",
+    "-- exiting \n",
+    "-- functions\n",
+    "-- HERE documents\n",
+    "-- passing data to scripts (positional parameters, export) and to functions"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "links\n",
+    "// the file system\n",
+    "https://www.youtube.com/watch?v=HbgzrKJvDRw\n",
+    "\n",
+    "# Derek Banas\n",
+    "https://www.youtube.com/watch?v=hwrnmQumtPw"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# The Bash Command Prompt\n",
+    "# the > (or $) is called the command line prompt\n",
+    "# you type your commands at the command line\n",
+    "# You will see the command line referred to as the \"Command Line Interface\" or CLI"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# Comments\n",
+    "# this is a comment"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# Values\n",
+    "# you can use the echo command to display things \n",
+    "\n",
+    "echo \"Hello World!\""
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# Variables\n",
+    "# you don't have to declare the type of a variable in bash,\n",
+    "#     you just assign a value to a variable to start using it\n",
+    "# assigning a value to a variable\n",
+    "# there must NOT be any spaces either side of the equal sign\n",
+    "\n",
+    "class_name=\"Scripting\""
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# retrieving the value assigned to a variable\n",
+    "# not the dollar sign before the variable name\n",
+    "\n",
+    "echo $class_name"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# getting user input\n",
+    "# -p is called an option\n",
+    "# you will often see options used in the command\n",
+    "# there must not be a space between the - and the p\n",
+    "# read -p is followed by a prompt and then by a variable name\n",
+    "\n",
+    "read -p \"Please enter your name: \" fullname"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# Exercise display the name that the user entered in the previous command\n",
+    "echo $fullname\n",
+    "printf \"%s\\n\" \"$fullname\""
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# Types/Typing\n",
+    "# Bash doesn't have types or type checking\n",
+    "# A value (or variable) only has a type by inspection or use\n",
+    "# For example, because the symbols inside the quaotes can be convered to a number, the \n",
+    "# following works just fine\n",
+    "\n",
+    "num=\"3\"\n",
+    "((num++))\n",
+    "echo $num"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# this would not work...\n",
+    "num=\"3a\"\n",
+    "((num++))\n",
+    "echo $num"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# Running commands from the command prompt\n",
+    "firefox \"https://www.ittralee.ie\""
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# When a program or command finishes execution it returns an exit status\n",
+    "# 0 (zero) indicates success\n",
+    "# any other number (usually) indicates failure\n",
+    "# you can find out the ext status by typing echo $?\n",
+    "\n",
+    "# try these commands:\n",
+    "num=\"3\"\n",
+    "((num++))\n",
+    "echo $?\n",
+    "\n",
+    "\n",
+    "# now try these commands:\n",
+    "num=\"3\"\n",
+    "((num++))\n",
+    "echo $?"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# The idea of a program exiting successfully or not is very important in linux\n",
+    "# and are the basis of the concept of truth or falsity\n",
+    "# this is captured in the following two commands\n",
+    "# true and false are commands in linux\n",
+    "\n",
+    "true\n",
+    "echo $?\n",
+    "\n",
+    "false\n",
+    "echo $?"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# type the following commands to find out more about true and false\n",
+    "# (not that 'which' and 'type' are themselves commands)\n",
+    "\n",
+    "which false\n",
+    "type false\n",
+    "\n",
+    "which true\n",
+    "type true"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# The 'if' statement\n",
+    "\n",
+    "if true\n",
+    "then\n",
+    "   echo the condition is true\n",
+    "else\n",
+    "   echo the condition is false\n",
+    "fi\n"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "if false\n",
+    "then\n",
+    "   echo the condition is true\n",
+    "else\n",
+    "   echo the condition is false\n",
+    "fi"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "num=3a\n",
+    "if ((num++))\n",
+    "then\n",
+    "   echo the condition is true\n",
+    "   ((num++))\n",
+    "else\n",
+    "   echo the condition is false\n",
+    "fi "
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# I/O in linux\n",
+    "# Three things that you need to understand in linux are a) I/O, b) redirection, and 3) piping"
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# I/O\n",
+    "There are three channels in linux for input, output, and errors. Each can be represented numerically by 0, 1, and 2 respectively."
+   ]
+  },
+  {
+   "cell_type": "raw",
+   "metadata": {},
+   "source": [
+    "# compare\n",
+    "echo hello there \n",
+    "\n",
+    "# to\n",
+    "echo hello there > greeting.txt"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Operating Systems\n",
+    "\n",
+    "An operating system (OS) is system software that manages computer hardware, software resources, and provides common services for computer programs."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "[Unix History](https://upload.wikimedia.org/wikipedia/commons/7/77/Unix_history-simple.svg)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Linux Diustributions\n",
+    "\n",
+    "A Linux distribution (often abbreviated as distro) is an operating system made from a software collection that is based upon the Linux kernel and, often, a package management system.\n",
+    "\n",
+    "A typical Linux distribution comprises a Linux kernel, GNU tools and libraries, additional software, documentation, a window system (the most common being the X Window System), a window manager, and a desktop environment.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# What is a linux shell?\n",
+    "In computing, a shell is a user interface for access to an operating system's services. In general, operating system shells use either a command-line interface (CLI) or graphical user interface (GUI), depending on a computer's role and particular operation. It is named a shell because it is the outermost layer around the operating system.\n",
+    "\n",
+    "CLI shells require the user to be familiar with commands and their calling syntax, and to understand concepts about the shell-specific scripting language (for example bash).\n",
+    "Graphical shells place a low burden on beginning computer users, and are characterized as being easy to use. Since they also come with certain disadvantages, most GUI-enabled operating systems also provide CLI shells. "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "There are lots of [shells!](https://en.wikipedia.org/wiki/Comparison_of_command_shells)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# The bash shell\n",
+    "\n",
+    "[bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) is the de facto shell for linux, and OSX. It has been ported to Windows in the last few years.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Comparison of Command-Line to GUI \n",
+    "\n",
+    "<table class=\"mtable\">\n",
+    "<tr>\n",
+    "<th>Topic</th>\n",
+    "<th>CLI</th>\n",
+    "<th>GUI</th>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Ease</td>\n",
+    "<td class=\"tcred\">Due to a higher degree of memorization and familiarity needed for operation and navigation, new users find operating a command line interface more difficult than a GUI.</td>\n",
+    "<td class=\"tcgreen\">Because a GUI is visually intuitive, users tend to learn how to use a GUI faster than a CLI.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Control</td>\n",
+    "<td class=\"tcred\">Users have a good bit of control over both the file and operating systems in a command line interface. However, for new or novice users, it is not as user-friendly as a GUI.</td>\n",
+    "<td class=\"tcgreen\">A GUI offers a lot of access to files, software features, and the operating system as a whole. Being more user-friendly than a command line, especially for new or novice users, a GUI is utilized by more users.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Multitasking</td>\n",
+    "<td class=\"tcred\">Although many command line environments are capable of multitasking, they do not offer the same ease and ability to view multiple things at once on one screen.</td>\n",
+    "<td class=\"tcgreen\">GUI users have windows that enable a user to view, control, manipulate, and toggle through multiple programs and folders at same time.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Speed</td>\n",
+    "<td class=\"tcgreen\">Command line users only need to utilize a <a href=\"/jargon/k/keyboard.htm\">keyboard</a> to navigate the interface, often resulting in faster performance.</td>\n",
+    "<td class=\"tcred\">While modern GUIs are fast and efficient, they require a <a href=\"/jargon/m/mouse.htm\">mouse</a>, so you must move your hand from the mouse to the keyboard to type. For many users, taking your hand off the keyboard to move the <a href=\"/jargon/m/mouspoin.htm\">mouse pointer</a> is slower than using a CLI, which requires only the keyboard.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Resources</td>\n",
+    "<td class=\"tcgreen\">A computer that is only using the command line takes a lot less of the computer&#39;s <a href=\"/jargon/r/resource.htm\">system resources</a> than a GUI.</td>\n",
+    "<td class=\"tcred\">A GUI requires more system resources because of the elements that require loading, such as icons and fonts. Video, mouse, and other <a href=\"/jargon/d/driver.htm\">drivers</a> need to be loaded, taking up additional system resources.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Scripting</td>\n",
+    "<td class=\"tcred\">A command line interface mostly requires users to already know scripting commands and syntax, making it difficult for new or novice users to create scripts.</td>\n",
+    "<td class=\"tcgreen\">Creating scripts using a GUI has become much easier with the help of programming software, which allows users to write the scripts without having to know all the commands and syntax. Programming software provides guides and tips for how to code specific functions, as well as preview options to see if and how the script work.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Remote access</td>\n",
+    "<td class=\"tcred\">When accessing another computer or device over a network, a user can manipulate the device or its files with a command line interface. However, you must know the commands to do so and is not as easy for new or novice users.</td>\n",
+    "<td class=\"tcgreen\">Remotely access another computer or server is possible in a GUI and easy to navigate with little experience. IT professionals often use a GUI for remote access, including the management of servers and user computers.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Diversity</td>\n",
+    "<td class=\"tcgreen\">After you&#39;ve learned how to navigate and use a command line, it&#39;s not going to change as much as a new GUI. Although new commands may be introduced, the original commands often remain the same.</td>\n",
+    "<td class=\"tcred\">Each GUI has a different design and structure when it comes to performing different tasks. Even different iterations of the same GUI, such as Windows, can have hundreds of different changes between each version.</td>\n",
+    "</tr>\n",
+    "<tr>\n",
+    "<td class=\"tcw bld ce\">Strain</td>\n",
+    "<td class=\"tcred\">A command line interface is often very basic and can be more of a strain on a user&#39;s vision. <a href=\"/jargon/c/carpaltu.htm\">Carpal Tunnel Syndrome</a> can also be a bit of a risk when using a command line interface because users are only using a keyboard. There is little need to change hand positions and strain to the wrists or even fingers can occur.</td>\n",
+    "<td class=\"tcgreen\">The use of <a href=\"/shortcut.htm\">shortcut keys</a> and more frequent movement of hand positions, due to switching between a keyboard and a mouse, strain may be reduced. Visual strain can still be a risk, but a GUI has more colors and is more visually appealing, leading to a potential reduction in visual strain.</td>\n",
+    "</tr>\n",
+    "</table>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Quick Look at [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell))\n",
+    "[flavicopes](https://flaviocopes.com/bash/)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You will interact with the linux filesystem, so it’s useful to understand it. See Section 4.11 of [this link](https://refspecs.linuxfoundation.org/FHS_3.0/fhs-3.0.pdf)<br/>\n",
+    "\n",
+    "Linux File System Directories\n",
+    "\n",
+    "<em><b>/bin</b></em>: Where Linux core commands reside like ls, mv.<br/>\n",
+    "<em><b>/boot</b></em>: Where boot loader and boot files are located.<br/>\n",
+    "<em><b>/dev</b></em>: Where all physical drives are mounted like USBs DVDs.<br/>\n",
+    "<em><b>/etc</b></em>: Contains configurations for the installed packages.<br/>\n",
+    "<em><b>/home</b></em>: Where every user will have a personal folder to put his folders with his name like /home/likegeeks.<br/>\n",
+    "<em><b>/lib</b></em>: Where the libraries of the installed packages located since libraries shared among all packages unlike windows, you may find duplicates in different folders.<br/>\n",
+    "<em><b>/media</b></em>: Here is the external devices like DVDs and USB sticks that are mounted and you can access their files from here.<br/>\n",
+    "<em><b>/mnt</b></em>: Where you mount other things Network locations and some distros you may find your mounted USB or DVD.<br/>\n",
+    "<em><b>/opt</b></em>: Some optional packages are located here and this is managed by the package manager.<br/>\n",
+    "<em><b>/proc</b></em>: Because everything on Linux is a file, this folder for processes running on the system, and you can access them and see much info about the current processes.<br/> \n",
+    "<em><b>/root</b></em>: The home folder for the root user.<br/>\n",
+    "<em><b>/sbin</b></em>: Like /bin, but binaries here are for root user only.<br/>\n",
+    "<em><b>/tmp</b></em>: Contains the temporary files.<br/>\n",
+    "<em><b>/usr</b></em>: Where the utilities and files shared between users on Linux.<br/>\n",
+    "<em><b>/var</b></em>: Contains system logs and other variable data."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We will be coming back to much of this material a few times during the semester, but you should start to familiarise yourself with these materials."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Bash",
+   "language": "bash",
+   "name": "bash"
+  },
+  "language_info": {
+   "codemirror_mode": "shell",
+   "file_extension": ".sh",
+   "mimetype": "text/x-sh",
+   "name": "bash"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

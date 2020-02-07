@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "The last time you checked irish times was:"
+tail -n 5 ~/scripts/irish_times.dat
+read -p  "Are you sure you want to check it again? (y/n)" go_ahead
+go_ahead=${go_ahead:-y}
+if [ "y" = $go_ahead ]; then
+   date >> ~/scripts/irish_times.dat
+   firefox https://www.irishtimes.com &
+else
+   exit 0
+fi
